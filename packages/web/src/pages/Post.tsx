@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { NextContext } from 'next'
 import gql from 'graphql-tag'
 import { graphqlClient } from '../lib/graphqlClient'
@@ -27,35 +27,31 @@ interface Props {
   post: PostDetail
 }
 
-export class Post extends PureComponent<Props> {
-  static async getInitialProps ({ query }: NextContextWithQuery) {
-    const {
-      data: {
-        getPost: post
-      }
-    } = await graphqlClient.query({
-      query: QUERY_GET_POST,
-      variables: {
-        postId: query.id
-      }
-    })
+const Post = ({ post }: Props) => {
+  return (
+    <div>
+      { post.text }
+    </div>
+  )
+}
 
-    return {
-      post
+Post.getInitialProps = async ({ query }: NextContextWithQuery) => {
+  const {
+    data: {
+      getPost: post
     }
-  }
+  } = await graphqlClient.query({
+    query: QUERY_GET_POST,
+    variables: {
+      postId: query.id
+    }
+  })
 
-  render () {
-    const {
-      props: {
-        post
-      }
-    } = this
-
-    return (
-      <div>
-        { post.text }
-      </div>
-    )
+  return {
+    post
   }
+}
+
+export {
+  Post
 }

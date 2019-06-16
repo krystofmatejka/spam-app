@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import gql from 'graphql-tag'
 import { graphqlClient } from '../lib/graphqlClient'
@@ -22,39 +22,35 @@ interface Props {
   posts: Post[]
 }
 
-export class Timeline extends PureComponent<Props> {
-  static async getInitialProps () {
-    const {
-      data: {
-        getPosts: posts
-      }
-    } = await graphqlClient.query({
-      query: QUERY_GET_POSTS
-    })
+const Timeline = ({ posts }: Props) => {
+  return posts.map(post => (
+    <h2>
+      <Link
+        href={{ pathname: ROUTES.POST.page, query: { id: post.id } }}
+        as={`/post/${post.id}`}
+      >
+        <a>
+          {post.text}
+        </a>
+      </Link>
+    </h2>
+  ))
+}
 
-    return {
-      posts
+Timeline.getInitialProps = async () => {
+  const {
+    data: {
+      getPosts: posts
     }
-  }
+  } = await graphqlClient.query({
+    query: QUERY_GET_POSTS
+  })
 
-  render () {
-    const {
-      props: {
-        posts
-      }
-    } = this
-
-    return posts.map(post => (
-      <h2>
-        <Link
-          href={{ pathname: ROUTES.POST.page, query: { id: post.id } }}
-          as={`/post/${post.id}`}
-        >
-          <a>
-            {post.text}
-          </a>
-        </Link>
-      </h2>
-    ))
+  return {
+    posts
   }
+}
+
+export {
+  Timeline
 }
