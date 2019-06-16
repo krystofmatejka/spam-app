@@ -1,0 +1,9 @@
+{
+  "verbose": false,
+  "ext": "ts,js,json",
+  "watch": [
+    "src/*",
+    "config/*"
+  ],
+  "exec": "ts-node index.ts"
+}

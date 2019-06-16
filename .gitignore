@@ -1,4 +1,4 @@
 .idea
-node_modules
-docker/local/storage/**/*
-!docker/local/storage/mysql/.gitkeep
+packages/*/node_modules
+packages/api/docker/local/storage/**/*
+!packages/api/docker/local/storage/mysql/.gitkeep

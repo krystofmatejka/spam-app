@@ -1,0 +1,20 @@
+{
+  "app": {
+    "env": "local",
+    "version": null
+  },
+  "server": {
+    "port": 5001
+  },
+  "graphql": {
+    "endpoint": "graphql"
+  },
+  "database": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "username": "root",
+    "password": "root",
+    "name": "spam",
+    "synchronizeSchema": true
+  }
+}
