@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import Link from 'next/link'
 import gql from 'graphql-tag'
 import { graphqlClient } from '../lib/graphqlClient'
+import { ROUTES } from '../constants'
 
 const QUERY_GET_POSTS = gql`
   query {
@@ -46,7 +47,7 @@ export class Posts extends PureComponent<Props> {
     return posts.map(post => (
       <h2>
         <Link
-          href={{ pathname: '/Detail', query: { id: post.id } }}
+          href={{ pathname: ROUTES.POST_DETAIL.page, query: { id: post.id } }}
           as={`/post/${post.id}`}
         >
           <a>

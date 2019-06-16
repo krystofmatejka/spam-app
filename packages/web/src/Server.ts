@@ -1,6 +1,6 @@
 import * as express from 'express'
 import * as next from 'next'
-import logger from '../../api/src/logger'
+import { ROUTES } from './constants'
 
 export class Server {
   private express = express()
@@ -14,19 +14,12 @@ export class Server {
 
     const handle = this.next.getRequestHandler()
 
-    this.express.get('/', async (req, res) => {
-      const html = await this.next.renderToHTML(req, res, '/Index', {})
-      return res.send(html)
-    })
-
-    this.express.get('/posts', async (req, res) => {
-      const html = await this.next.renderToHTML(req, res, '/Posts', {})
-      return res.send(html)
-    })
-
-    this.express.get('/post/:id', async (req, res) => {
-      const html = await this.next.renderToHTML(req, res, '/Detail', { id: req.params.id })
-      return res.send(html)
+    Object.values(ROUTES).forEach((route) => {
+      this.express.get(route.path, async (req, res) => {
+        console.log(`Requesting ${route.path}`)
+        const html = await this.next.renderToHTML(req, res, route.page, req.params)
+        return res.send(html)
+      })
     })
 
     this.express.get('*', (req, res) => {
@@ -35,9 +28,8 @@ export class Server {
 
     const port = 5002
     this.express
-      //.use(this.next.getRequestHandler())
       .listen(port, () => {
-      logger.info(`Server is running at port: ${port}`)
+      console.info(`Server is running at port: ${port}`)
     })
   }
 }

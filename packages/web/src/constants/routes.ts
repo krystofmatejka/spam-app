@@ -1,14 +1,14 @@
 export const ROUTES = {
   INDEX: {
-    page: 'Index',
+    page: '/Index',
     path: '/'
   },
   POSTS: {
-    page: 'List',
+    page: '/Posts',
     path: '/posts'
   },
   POST_DETAIL: {
-    page: 'Detail',
+    page: '/Detail',
     path: '/post/:id'
   }
 }
