@@ -22,7 +22,7 @@ interface Props {
   posts: Post[]
 }
 
-export class Posts extends PureComponent<Props> {
+export class Timeline extends PureComponent<Props> {
   static async getInitialProps () {
     const {
       data: {
@@ -47,7 +47,7 @@ export class Posts extends PureComponent<Props> {
     return posts.map(post => (
       <h2>
         <Link
-          href={{ pathname: ROUTES.POST_DETAIL.page, query: { id: post.id } }}
+          href={{ pathname: ROUTES.POST.page, query: { id: post.id } }}
           as={`/post/${post.id}`}
         >
           <a>

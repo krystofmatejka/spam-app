@@ -19,15 +19,15 @@ interface NextContextWithQuery extends NextContext {
   }
 }
 
-interface Post {
+interface PostDetail {
   text: string
 }
 
 interface Props {
-  post: Post
+  post: PostDetail
 }
 
-export class Detail extends PureComponent<Props> {
+export class Post extends PureComponent<Props> {
   static async getInitialProps ({ query }: NextContextWithQuery) {
     const {
       data: {
