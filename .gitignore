@@ -1,0 +1,4 @@
+.idea
+node_modules
+docker/local/storage/**/*
+!docker/local/storage/mysql/.gitkeep
