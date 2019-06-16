@@ -1,4 +1,5 @@
 .idea
+packages/*/.next
 packages/*/node_modules
 packages/api/docker/local/storage/**/*
 !packages/api/docker/local/storage/mysql/.gitkeep

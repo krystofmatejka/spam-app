@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql'
+import { Resolver, Query, Mutation, Arg, ID } from 'type-graphql'
 import { getRepository } from 'typeorm'
 import { PostEntity } from './PostEntity'
 import { PostInput } from './PostInput'
@@ -14,7 +14,7 @@ export class PostsResolver {
 
   @Query(() => PostEntity)
   public getPost (
-    @Arg('postId') postId: string
+    @Arg('postId', () => ID) postId: string
   ): Promise<PostEntity> {
     return this.postRepository.findOne(postId)
   }
