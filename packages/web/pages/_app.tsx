@@ -1,20 +1,26 @@
 import React from 'react'
-import App, { Container } from 'next/app'
+import App, { Container, DefaultAppIProps } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
 import { graphqlClient } from '../src/lib/graphqlClient'
+import withApollo from '../src/lib/withApollo'
 
-class SpamApp extends App {
+interface Props extends DefaultAppIProps {
+  apollo: any
+}
+
+class SpamApp extends App<Props> {
   render () {
     const {
       props: {
         Component,
-        pageProps
+        pageProps,
+        apollo
       }
     } = this
 
     return (
       <Container>
-        <ApolloProvider client={graphqlClient}>
+        <ApolloProvider client={apollo}>
           <Component {...pageProps} />
         </ApolloProvider>
       </Container>
@@ -22,4 +28,4 @@ class SpamApp extends App {
   }
 }
 
-export default SpamApp
+export default withApollo(SpamApp)
