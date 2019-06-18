@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:watch:api": "cd packages/api && npm run docker-compose:up && npm run start:watch",
+    "start:watch:web": "cd packages/web && npm run start:watch"
   },
   "keywords": [],
   "author": "",
