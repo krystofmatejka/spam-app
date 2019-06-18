@@ -73,7 +73,7 @@ const AddPostForm = () => {
 
 const Timeline = () => {
   return (
-    <Query query={QUERY_GET_POSTS}>
+    <Query query={QUERY_GET_POSTS} pollInterval={10000}>
       {({ data, loading }) => {
         if (loading) {
           return null
