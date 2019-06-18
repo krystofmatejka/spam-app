@@ -32,7 +32,7 @@ interface Props {
 }
 
 const AddPostForm = ({setPosts}) => {
-  const [post, setPost] = useState('')
+  const [ post, setPost ] = useState('')
 
   return (
     <Mutation
@@ -41,7 +41,6 @@ const AddPostForm = ({setPosts}) => {
         const posts = cache.readQuery({
           query: QUERY_GET_POSTS
         })
-        console.log('posts', posts)
         cache.writeQuery({
           query: QUERY_GET_POSTS,
           data: {
@@ -54,7 +53,6 @@ const AddPostForm = ({setPosts}) => {
       {(createPost: Function) => (
         <form onSubmit={(event) => {
           event.preventDefault()
-          //console.log(post)
           createPost({
             variables: {
               input: {
@@ -77,12 +75,15 @@ const AddPostForm = ({setPosts}) => {
 const Timeline = () => {
   return (
     <Query query={QUERY_GET_POSTS}>
-      {({data, loading}) => {
-        if (loading) { return null }
-        console.log(data)
+      {({ data, loading }) => {
+        if (loading) {
+          return null
+        }
+
         const {
-            getPosts: posts
+          getPosts: posts
         } = data
+
         return (
           <>
             <AddPostForm setPosts={() => {

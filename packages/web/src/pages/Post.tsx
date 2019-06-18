@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextContext } from 'next'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import { graphqlClient } from '../lib/graphqlClient'
 
 const QUERY_GET_POST = gql`
   query ($postId: ID!) {
@@ -24,33 +24,34 @@ interface PostDetail {
 }
 
 interface Props {
-  post: PostDetail
+  id: string
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ id }: Props) => {
   return (
-    <div>
-      { post.text }
-    </div>
+    <Query query={QUERY_GET_POST} variables={{
+      postId: id
+    }}>
+      {({ data, loading }) => {
+        if (loading) {
+          return null
+        }
+
+        const {
+          getPost: post
+        } = data
+
+        return (
+          <div>
+            { post.text }
+          </div>
+        )
+      }}
+    </Query>
   )
 }
 
-Post.getInitialProps = async ({ query }: NextContextWithQuery) => {
-  const {
-    data: {
-      getPost: post
-    }
-  } = await graphqlClient.query({
-    query: QUERY_GET_POST,
-    variables: {
-      postId: query.id
-    }
-  })
-
-  return {
-    post
-  }
-}
+Post.getInitialProps = async ({ query }: NextContextWithQuery) => ({ id: query.id })
 
 export {
   Post
