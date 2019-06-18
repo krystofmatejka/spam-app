@@ -9,7 +9,11 @@ export class PostsResolver {
 
   @Query(() => [ PostEntity ])
   public getPosts (): Promise<PostEntity[]> {
-    return this.postRepository.find()
+    return this.postRepository.find({
+      order: {
+        id: 'DESC'
+      }
+    })
   }
 
   @Query(() => PostEntity)

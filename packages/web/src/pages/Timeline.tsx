@@ -31,7 +31,7 @@ interface Props {
   posts: Post[]
 }
 
-const AddPostForm = ({setPosts}) => {
+const AddPostForm = () => {
   const [ post, setPost ] = useState('')
 
   return (
@@ -44,10 +44,9 @@ const AddPostForm = ({setPosts}) => {
         cache.writeQuery({
           query: QUERY_GET_POSTS,
           data: {
-            getPosts: posts.getPosts.concat([data.createPost])
+            getPosts: [data.createPost].concat(posts.getPosts)
           }
         })
-        setPosts(posts.getPosts.concat([data.createPost]))
       }}
     >
       {(createPost: Function) => (
@@ -86,11 +85,10 @@ const Timeline = () => {
 
         return (
           <>
-            <AddPostForm setPosts={() => {
-            }}/>
+            <AddPostForm/>
             {
               posts.map(post => (
-                <h2>
+                <h2 key={post.id}>
                   <Link
                     href={{pathname: ROUTES.POST.page, query: {id: post.id}}}
                     as={`/post/${post.id}`}
