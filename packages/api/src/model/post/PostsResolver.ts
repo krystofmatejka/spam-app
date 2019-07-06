@@ -1,37 +1,10 @@
-import { Resolver, Query, Mutation, Arg, ID, ObjectType, Field } from 'type-graphql'
-import { getRepository, MoreThan } from 'typeorm'
+import { Resolver, Query, Mutation, Arg, ID } from 'type-graphql'
+import { getRepository } from 'typeorm'
 import { PostEntity } from './PostEntity'
 import { PostInput } from './PostInput'
-
-@ObjectType()
-class Edge {
-  @Field()
-  public cursor: string
-
-  @Field(() => PostEntity)
-  public node: PostEntity
-}
-
-@ObjectType()
-class PageInfo {
-  @Field()
-  public hasNextPage: boolean = false
-
-  @Field()
-  public hasPreviousPage: boolean = false
-}
-
-@ObjectType()
-class PostsConnection {
-  @Field(() => [ Edge ])
-  public edges: Edge[] = []
-
-  @Field(() => PageInfo)
-  public pageInfo: PageInfo = {
-    hasNextPage: false,
-    hasPreviousPage: false
-  }
-}
+import { composeFindOptions } from '../../pagination/composeFindOptions'
+import { createConnection } from '../../pagination/createConnection'
+import { PostConnection } from './pagination/PostConnection'
 
 @Resolver()
 export class PostsResolver {
@@ -64,26 +37,13 @@ export class PostsResolver {
     return this.postRepository.save(article)
   }
 
-  @Query(() => PostsConnection)
+  @Query(() => PostConnection)
   public async posts (
-    @Arg('first') first: number = 5,
-    @Arg('after') after: number = 0
-  ) {
-    const posts = await this.postRepository.find({
-      take: first,
-      where: {
-        id: MoreThan(after)
-      }
-    })
-
-    const edges = posts.map((post) => ({
-      cursor: `${post.id}`,
-      node: post
-    }))
-
-    const postsConnection = new PostsConnection()
-    postsConnection.edges = edges
-
-    return postsConnection
+    @Arg('first', { nullable: true }) first: number = 10,
+    @Arg('after', { nullable: true }) after: string
+  ): Promise<PostConnection> {
+    const findOptions = composeFindOptions(first, after)
+    const posts = await this.postRepository.find(findOptions)
+    return createConnection(posts, first)
   }
 }
