@@ -5,6 +5,7 @@
     "quotemark": [ true, "single" ],
     "ordered-imports": false,
     "space-before-function-paren": true,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "max-classes-per-file": false
   }
 }
