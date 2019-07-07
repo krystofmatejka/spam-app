@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm'
 import { UserEntity } from './UserEntity'
 import { composeFindOptions } from '../../pagination/composeFindOptions'
 import { createConnection } from '../../pagination/createConnection'
-import { UserConnection } from './pagination/UserConnection'
+import { UserConnection } from './UserConnection'
 
 @Resolver()
 export class UsersResolver {

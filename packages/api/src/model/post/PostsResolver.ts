@@ -4,7 +4,7 @@ import { PostEntity } from './PostEntity'
 import { PostInput } from './PostInput'
 import { composeFindOptions } from '../../pagination/composeFindOptions'
 import { createConnection } from '../../pagination/createConnection'
-import { PostConnection } from './pagination/PostConnection'
+import { PostConnection } from './PostConnection'
 
 @Resolver()
 export class PostsResolver {
