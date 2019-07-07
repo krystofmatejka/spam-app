@@ -17,9 +17,7 @@ export const ConnectionContainer = <T>(name: string, TEntity: ClassType<T>) => {
     public edges: Edge[] = []
 
     @Field(() => PageInfo)
-    public pageInfo: PageInfo = {
-      hasNextPage: false
-    }
+    public pageInfo: PageInfo
   }
 
   return Connection

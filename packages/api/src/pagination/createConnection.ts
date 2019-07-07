@@ -16,10 +16,19 @@ export const createConnection = <T extends IEntity>(entities: T[], first: number
     node: entity
   }))
 
+  let startCursor
+  let endCursor
+  if (edges.length > 0) {
+    startCursor = edges[0].cursor
+    endCursor = edges[edges.length - 1].cursor
+  }
+
   return {
     edges,
     pageInfo: {
-      hasNextPage
+      hasNextPage,
+      startCursor,
+      endCursor
     }
   }
 }
