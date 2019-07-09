@@ -1,14 +1,17 @@
-import { MoreThan } from 'typeorm'
+import { LessThan } from 'typeorm'
 import { decodeCursor } from './decodeCursor'
 
 export const composeFindOptions = (first, after) => {
   const findOptions: any = {
-    take: first + 1
+    take: first + 1,
+    order: {
+      id: 'DESC'
+    }
   }
 
   if (after) {
     findOptions.where = {
-      id: MoreThan(decodeCursor(after))
+      id: LessThan(decodeCursor(after))
     }
   }
 

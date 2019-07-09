@@ -1,21 +1,21 @@
+import { pipe } from 'ramda'
 import { IEntity } from './IEntity'
 import { IConnection } from './IConnection'
 import { IEdge } from './IEdge'
 import { encodeCursor } from './encodeCursor'
 
-export const createConnection = <T extends IEntity>(entities: T[], first: number): IConnection<IEdge<T>> => {
-  let hasNextPage = false
+const hasNextPage = (first: number, entities: IEntity[]) => (entities.length - 1 === first)
 
-  if (entities.length - 1 === first) {
-    entities = entities.slice(0, entities.length - 1)
-    hasNextPage = true
-  }
+const sliceUnnecessaryEntity = (first: number) => (entities: IEntity[]) => {
+  return hasNextPage(first, entities) ? entities.slice(0, entities.length - 1) : entities
+}
 
-  const edges = entities.map((entity) => ({
-    cursor: encodeCursor(entity.id),
-    node: entity
-  }))
+const entitiesToEdges = (entities: IEntity[]) => entities.map((entity) => ({
+  cursor: encodeCursor(entity.id),
+  node: entity
+}))
 
+const getBorderCursors = (edges = []) => {
   let startCursor
   let endCursor
   if (edges.length > 0) {
@@ -24,11 +24,28 @@ export const createConnection = <T extends IEntity>(entities: T[], first: number
   }
 
   return {
-    edges,
+    startCursor,
+    endCursor
+  }
+}
+
+const getPageInfo = <T>(first: number, entities: IEntity[], edges: Array<IEdge<T>>) => {
+  return {
     pageInfo: {
-      hasNextPage,
-      startCursor,
-      endCursor
+      hasNextPage: hasNextPage(first, entities),
+      ...getBorderCursors(edges)
     }
+  }
+}
+
+export const createConnection = <T extends IEntity>(entities: T[], first: number): IConnection<IEdge<T>> => {
+  const edges: any = pipe(
+    sliceUnnecessaryEntity(first),
+    entitiesToEdges
+  )(entities)
+
+  return {
+    edges,
+    ...getPageInfo(first, entities, edges)
   }
 }
