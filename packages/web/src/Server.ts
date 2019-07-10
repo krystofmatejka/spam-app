@@ -5,7 +5,7 @@ import { ROUTES } from './constants'
 export class Server {
   private express = express()
 
-  private next: any = next({
+  private next = next({
     dev: true
   })
 
