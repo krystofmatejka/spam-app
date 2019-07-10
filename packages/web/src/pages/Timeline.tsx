@@ -30,17 +30,6 @@ const MUTATION_CREATE_POST = gql`
   }
 `
 
-interface Post {
-  node: {
-    id: string,
-    text: string
-  }
-}
-
-interface Props {
-  posts: Post[]
-}
-
 const AddPostForm = () => {
   const [ post, setPost ] = useState('')
 

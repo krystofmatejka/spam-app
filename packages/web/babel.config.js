@@ -1,7 +1,6 @@
 const presets = {
   web: [
-    'next/babel',
-    '@zeit/next-typescript/babel'
+    'next/babel'
   ]
 }
 

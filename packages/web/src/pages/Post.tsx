@@ -1,5 +1,5 @@
 import React from 'react'
-import { NextContext } from 'next'
+import { NextPageContext } from 'next'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -13,14 +13,10 @@ const QUERY_GET_POST = gql`
   }
 `
 
-interface NextContextWithQuery extends NextContext {
+interface NextContextWithQuery extends NextPageContext {
   query: {
     id: string
   }
-}
-
-interface PostDetail {
-  text: string
 }
 
 interface Props {

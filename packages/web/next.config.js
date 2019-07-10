@@ -1,5 +1,3 @@
-const withTypescript = require('@zeit/next-typescript')
-
 const nextConfig = {
   webpack: (config) => {
     return config
@@ -7,4 +5,4 @@ const nextConfig = {
   useFileSystemPublicRoutes: false
 }
 
-module.exports = withTypescript(nextConfig)
+module.exports = nextConfig

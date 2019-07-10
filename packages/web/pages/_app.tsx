@@ -1,10 +1,9 @@
 import React from 'react'
-import App, { Container, DefaultAppIProps } from 'next/app'
+import App, { Container, AppInitialProps } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
-import { graphqlClient } from '../src/lib/graphqlClient'
 import withApollo from '../src/lib/withApollo'
 
-interface Props extends DefaultAppIProps {
+interface Props extends AppInitialProps {
   apollo: any
 }
 
