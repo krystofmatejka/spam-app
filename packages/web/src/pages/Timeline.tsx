@@ -22,7 +22,7 @@ const QUERY_GET_POSTS = gql`
 `
 
 const MUTATION_CREATE_POST = gql`
-  mutation ($input: PostInput!)  {
+  mutation CreatePost ($input: PostInput!)  {
     createPost (input: $input) {
       id
       text
@@ -40,10 +40,21 @@ const AddPostForm = () => {
         const posts = cache.readQuery({
           query: QUERY_GET_POSTS
         })
+
         cache.writeQuery({
           query: QUERY_GET_POSTS,
           data: {
-            getPosts: [data.createPost].concat(posts.getPosts)
+            posts: {
+              ...posts.posts,
+              edges: [
+                {
+                  node: {
+                    ...data.createPost
+                  },
+                  __typename: 'PostEdge'
+                }
+              ].concat(posts.posts.edges)
+            }
           }
         })
       }}
@@ -119,19 +130,16 @@ const Timeline = () => {
                 updateQuery: (previous, { fetchMoreResult }) => {
                   const {
                     posts: {
-                      edges,
-                      pageInfo,
-                      __typename
+                      edges
                     }
                   } = fetchMoreResult
 
                   return {
                     posts: {
+                      ...fetchMoreResult.posts,
                       edges: [
                         ...previous.posts.edges, ...edges
-                      ],
-                      pageInfo,
-                      __typename
+                      ]
                     }
                   }
                 }

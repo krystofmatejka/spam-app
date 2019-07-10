@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const QUERY_GET_POST = gql`
-  query ($postId: ID!) {
+  query PostById ($postId: ID!) {
     getPost (
       postId: $postId
     ) {
