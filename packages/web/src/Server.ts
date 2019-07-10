@@ -1,12 +1,10 @@
-import * as express from 'express'
-import * as next from 'next'
+import express from 'express'
+import next from 'next'
 import { ROUTES } from './constants'
 
 export class Server {
-  // @ts-ignore
   private express = express()
 
-  // @ts-ignore
   private next: any = next({
     dev: true
   })
