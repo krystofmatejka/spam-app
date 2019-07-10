@@ -5,10 +5,18 @@ import gql from 'graphql-tag'
 import { ROUTES } from '../constants'
 
 const QUERY_GET_POSTS = gql`
-  query {
-    getPosts {
-      id
-      text
+  query Posts ($cursor: String) {
+    posts (first: 10, after: $cursor) {
+        edges {
+            node {
+                id
+                text
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
     }
   }
 `
@@ -23,8 +31,10 @@ const MUTATION_CREATE_POST = gql`
 `
 
 interface Post {
-  id: string,
-  text: string
+  node: {
+    id: string,
+    text: string
+  }
 }
 
 interface Props {
@@ -73,33 +83,71 @@ const AddPostForm = () => {
 
 const Timeline = () => {
   return (
-    <Query query={QUERY_GET_POSTS} pollInterval={10000}>
-      {({ data, loading }) => {
+    <Query query={QUERY_GET_POSTS}>
+      {({ data, loading, fetchMore }) => {
         if (loading) {
           return null
         }
 
         const {
-          getPosts: posts
+          posts: {
+            edges,
+            pageInfo: {
+              hasNextPage,
+              endCursor
+            }
+          }
         } = data
 
         return (
           <>
             <AddPostForm/>
             {
-              posts.map(post => (
-                <h2 key={post.id}>
-                  <Link
-                    href={{pathname: ROUTES.POST.page, query: {id: post.id}}}
-                    as={`/post/${post.id}`}
-                  >
-                    <a>
-                      {post.text}
-                    </a>
-                  </Link>
-                </h2>
-              ))
+              edges.map(edge => {
+                const {
+                  node: post
+                } = edge
+
+                return (
+                  <h2 key={post.id}>
+                    <Link
+                      href={{pathname: ROUTES.POST.page, query: {id: post.id}}}
+                      as={`/post/${post.id}`}
+                    >
+                      <a>
+                        {post.text}
+                      </a>
+                    </Link>
+                  </h2>
+                )
+              })
             }
+            <button onClick={() => {
+              fetchMore({
+                variables: {
+                  cursor: endCursor
+                },
+                updateQuery: (previous, { fetchMoreResult }) => {
+                  const {
+                    posts: {
+                      edges,
+                      pageInfo,
+                      __typename
+                    }
+                  } = fetchMoreResult
+
+                  return {
+                    posts: {
+                      edges: [
+                        ...previous.posts.edges, ...edges
+                      ],
+                      pageInfo,
+                      __typename
+                    }
+                  }
+                }
+              })
+            }} disabled={!hasNextPage}>Load more</button>
           </>
         )
       }}
