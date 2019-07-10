@@ -7,7 +7,8 @@
     "start:watch": "NODE_ENV=development nodemon",
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate:types": "apollo codegen:generate --localSchemaFile=../../jetbrains-graphql-plugin/graphql.schema.json --target=typescript --includes=\"src/**/*\" --tagName=gql --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +22,7 @@
     "babel-plugin-idx": "^2.4.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "express": "^4.17.1",
-    "graphql": "^14.2.1",
+    "graphql": "^14.3.1",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.0.0",
     "next-apollo": "^2.1.0",
@@ -32,8 +33,10 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.0",
+    "@types/graphql": "^14.2.2",
     "@types/next": "^8.0.5",
     "@types/node": "^11.13.14",
+    "apollo": "^2.15.0",
     "babel-plugin-styled-components": "^1.10.0",
     "nodemon": "^1.19.1",
     "ts-node": "^8.3.0",

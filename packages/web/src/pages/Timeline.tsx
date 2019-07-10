@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { ROUTES } from '../constants'
+import { Posts } from './types/Posts'
 
 const QUERY_GET_POSTS = gql`
   query Posts ($cursor: String) {
@@ -83,7 +84,7 @@ const AddPostForm = () => {
 
 const Timeline = () => {
   return (
-    <Query query={QUERY_GET_POSTS}>
+    <Query<Posts> query={QUERY_GET_POSTS}>
       {({ data, loading, fetchMore }) => {
         if (loading) {
           return null
@@ -97,7 +98,7 @@ const Timeline = () => {
               endCursor
             }
           }
-        } = data
+        } = data!
 
         return (
           <>
@@ -129,14 +130,15 @@ const Timeline = () => {
                 },
                 updateQuery: (previous, { fetchMoreResult }) => {
                   const {
+                    posts,
                     posts: {
                       edges
                     }
-                  } = fetchMoreResult
+                  } = fetchMoreResult!
 
                   return {
                     posts: {
-                      ...fetchMoreResult.posts,
+                      ...posts,
                       edges: [
                         ...previous.posts.edges, ...edges
                       ]
