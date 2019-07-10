@@ -1,5 +1,5 @@
 import { LessThan } from 'typeorm'
-import { decodeCursor } from './decodeCursor'
+import { decodeCursor } from './encoder'
 
 export const composeFindOptions = (first, after) => {
   const findOptions: any = {

@@ -1,4 +1,4 @@
-import { PageInfo } from './PageInfo'
+import { PageInfo } from '../PageInfo'
 
 export interface IConnection<TEdge> {
   edges: TEdge[]

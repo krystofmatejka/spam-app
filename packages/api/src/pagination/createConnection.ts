@@ -1,13 +1,11 @@
 import { pipe } from 'ramda'
-import { IEntity } from './IEntity'
-import { IConnection } from './IConnection'
-import { IEdge } from './IEdge'
-import { encodeCursor } from './encodeCursor'
+import { IConnection,  IEdge, IEntity } from './types'
+import { encodeCursor } from './encoder'
 
 const hasNextPage = (first: number, entities: IEntity[]) => (entities.length - 1 === first)
 
 const sliceUnnecessaryEntity = (first: number) => (entities: IEntity[]) => {
-  return hasNextPage(first, entities) ? entities.slice(0, entities.length - 1) : entities
+  return hasNextPage(first, entities) ? entities.slice(0, -1) : entities
 }
 
 const entitiesToEdges = (entities: IEntity[]) => entities.map((entity) => ({
