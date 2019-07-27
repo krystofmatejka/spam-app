@@ -4,4 +4,7 @@ import { InputType, Field } from 'type-graphql'
 export class PostInput {
   @Field()
   public text: string
+
+  @Field({ nullable: true })
+  public parentId?: string
 }

@@ -10,31 +10,11 @@ import { PostConnection } from './PostConnection'
 export class PostsResolver {
   private postRepository = getRepository(PostEntity)
 
-  @Query(() => [ PostEntity ])
-  public getPosts (): Promise<PostEntity[]> {
-    return this.postRepository.find({
-      order: {
-        id: 'DESC'
-      }
-    })
-  }
-
   @Query(() => PostEntity)
-  public getPost (
+  public post (
     @Arg('postId', () => ID) postId: string
   ): Promise<PostEntity> {
     return this.postRepository.findOne(postId)
-  }
-
-  @Mutation(() => PostEntity)
-  public createPost (
-    @Arg('input') input: PostInput
-  ): Promise<PostEntity> {
-    const article = this.postRepository.create({
-      text: input.text
-    })
-
-    return this.postRepository.save(article)
   }
 
   @Query(() => PostConnection)
@@ -45,5 +25,20 @@ export class PostsResolver {
     const findOptions = composeFindOptions(first, after)
     const posts = await this.postRepository.find(findOptions)
     return createConnection(posts, first)
+  }
+
+  @Mutation(() => PostEntity)
+  public createPost (
+    @Arg('input') input: PostInput
+  ): Promise<PostEntity> {
+    const data = {
+      text: input.text
+    }
+    if (input.parentId) {
+      Object.assign(data, { parent: { id: input.parentId }})
+    }
+    const article = this.postRepository.create(data)
+
+    return this.postRepository.save(article)
   }
 }
