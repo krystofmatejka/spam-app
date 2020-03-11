@@ -79,6 +79,7 @@ const Form = ({ disabled, parent }: Props) => {
               }
             }
           })
+          setPost('')
         }}>
           <div>
             <textarea disabled={disabled} value={post} onChange={(e) => setPost(e.target.value)} />
