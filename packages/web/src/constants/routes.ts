@@ -1,6 +1,6 @@
 export const ROUTES = {
   APP: {
-    page: '/App',
+    page: '/app',
     path: '/:id?'
   }
 }

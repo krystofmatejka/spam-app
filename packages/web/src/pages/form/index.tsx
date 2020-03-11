@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Mutation } from 'react-apollo'
+import React, {useState} from 'react'
+import {Mutation} from 'react-apollo'
 import gql from 'graphql-tag'
 
 const MUTATION_CREATE_POST = gql`
@@ -33,8 +33,8 @@ interface Props {
   parent?: string
 }
 
-const Form = ({ disabled, parent }: Props) => {
-  const [ post, setPost ] = useState('')
+const Form = ({disabled, parent}: Props) => {
+  const [post, setPost] = useState('')
 
   return (
     <Mutation
@@ -82,10 +82,10 @@ const Form = ({ disabled, parent }: Props) => {
           setPost('')
         }}>
           <div>
-            <textarea disabled={disabled} value={post} onChange={(e) => setPost(e.target.value)} />
+            <textarea disabled={disabled} value={post} onChange={(e) => setPost(e.target.value)}/>
           </div>
           <div>
-            <button type='submit' disabled={disabled}>Odeslat</button>
+            <button type='submit' disabled={disabled}>Submit</button>
           </div>
         </form>
       )}

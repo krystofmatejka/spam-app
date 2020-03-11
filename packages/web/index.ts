@@ -1,4 +1,4 @@
-import { Server } from './src/Server'
+import { Server } from './src/server'
 
 const server = new Server()
 server.start()

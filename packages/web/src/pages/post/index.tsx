@@ -17,12 +17,12 @@ interface Props {
   handleIsLoaded: (boolean) => void
 }
 
-const Post = memo(({ id, handleIsLoaded }: Props) => {
+const Post = memo(({id, handleIsLoaded}: Props) => {
   return (
     <Query query={QUERY_GET_POST} variables={{
       postId: id
     }}>
-      {({ data, loading }) => {
+      {({data, loading}) => {
         if (loading) {
           return null
         }
@@ -34,7 +34,7 @@ const Post = memo(({ id, handleIsLoaded }: Props) => {
 
         return (
           <div>
-            { post.text }
+            {post.text}
           </div>
         )
       }}

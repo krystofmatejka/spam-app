@@ -1,6 +1,6 @@
 import express from 'express'
 import next from 'next'
-import { ROUTES } from './constants'
+import {ROUTES} from './constants'
 
 export class Server {
   private express = express()
@@ -9,7 +9,7 @@ export class Server {
     dev: true
   })
 
-  public async start () {
+  public async start() {
     await this.next.prepare()
 
     const handle = this.next.getRequestHandler()
@@ -29,7 +29,7 @@ export class Server {
     const port = 5002
     this.express
       .listen(port, () => {
-      console.info(`Server is running at port: ${port}`)
-    })
+        console.info(`Server is running at http://localhost:${port}`)
+      })
   }
 }

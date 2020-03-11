@@ -26,10 +26,10 @@ interface Props {
   parent?: string
 }
 
-const Timeline = ({ parent }: Props) => {
+const Timeline = ({parent}: Props) => {
   return (
-    <Query<Posts> query={QUERY_GET_POSTS} variables={{ parent }}>
-      {({ data, loading, fetchMore }) => {
+    <Query<Posts> query={QUERY_GET_POSTS} variables={{parent}}>
+      {({data, loading, fetchMore}) => {
         if (loading) {
           return null
         }
@@ -71,7 +71,7 @@ const Timeline = ({ parent }: Props) => {
                 variables: {
                   cursor: endCursor
                 },
-                updateQuery: (previous, { fetchMoreResult }) => {
+                updateQuery: (previous, {fetchMoreResult}) => {
                   const {
                     posts,
                     posts: {
@@ -89,12 +89,12 @@ const Timeline = ({ parent }: Props) => {
                   }
                 }
               })
-            }} disabled={!hasNextPage}>Load more</button>
+            }} disabled={!hasNextPage}>Load more
+            </button>
           </>
         )
       }}
     </Query>
-
   )
 }
 

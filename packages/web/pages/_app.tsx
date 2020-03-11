@@ -1,14 +1,14 @@
 import React from 'react'
-import App, { Container, AppInitialProps } from 'next/app'
-import { ApolloProvider } from 'react-apollo'
-import withApollo from '../src/lib/withApollo'
+import App, {Container, AppInitialProps} from 'next/app'
+import {ApolloProvider} from 'react-apollo'
+import {withApollo} from '../src/lib'
 
 interface Props extends AppInitialProps {
   apollo: any
 }
 
 class SpamApp extends App<Props> {
-  render () {
+  render() {
     const {
       props: {
         Component,
@@ -20,7 +20,7 @@ class SpamApp extends App<Props> {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Component {...pageProps} />
+          <Component {...pageProps}/>
         </ApolloProvider>
       </Container>
     )
