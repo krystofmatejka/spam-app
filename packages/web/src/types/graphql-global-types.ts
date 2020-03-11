@@ -8,7 +8,7 @@
 
 export interface PostInput {
   text: string;
-  parentId?: string | null;
+  parent?: string | null;
 }
 
 //==============================================================

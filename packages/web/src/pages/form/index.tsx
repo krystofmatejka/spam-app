@@ -75,7 +75,7 @@ const Form = ({ disabled, parent }: Props) => {
             variables: {
               input: {
                 text: post,
-                parentId: parent
+                parent: parent
               }
             }
           })

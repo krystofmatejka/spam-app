@@ -24,7 +24,9 @@ export class PostsResolver {
     @Arg('parent', { nullable: true}) parent: string = null
   ): Promise<PostConnection> {
     const findOptions = {
-      where: { parent }
+      where: {
+        parent: (parent) ? parent : IsNull()
+      }
     }
     const findOptionsWithCursor = composeFindOptions(first, after, findOptions)
 
@@ -39,8 +41,12 @@ export class PostsResolver {
     const data = {
       text: input.text
     }
-    if (input.parentId) {
-      Object.assign(data, { parent: { id: parseInt(input.parentId, 10) }})
+    if (input.parent) {
+      Object.assign(data, {
+        parent: {
+          id: parseInt(input.parent, 10)
+        }
+      })
     }
     const article = this.postRepository.create(data)
 

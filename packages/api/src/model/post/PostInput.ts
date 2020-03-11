@@ -6,5 +6,5 @@ export class PostInput {
   public text: string
 
   @Field({ nullable: true })
-  public parentId?: string
+  public parent?: string
 }

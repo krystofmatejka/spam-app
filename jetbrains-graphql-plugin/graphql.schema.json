@@ -49,6 +49,16 @@
             "description": null,
             "args": [
               {
+                "name": "parent",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "after",
                 "description": null,
                 "type": {
@@ -64,16 +74,6 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "Float",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "parent",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -598,7 +598,7 @@
             "defaultValue": null
           },
           {
-            "name": "parentId",
+            "name": "parent",
             "description": null,
             "type": {
               "kind": "SCALAR",
