@@ -15,8 +15,6 @@ interface Props {
 }
 
 const App = ({ id }: Props) => {
-  console.log(id, typeof id)
-
   const [ isPostLoaded, setPostLoaded ] = useState(!id)
 
   return (
