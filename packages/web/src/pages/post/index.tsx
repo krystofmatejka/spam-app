@@ -1,6 +1,5 @@
-import React from 'react'
-import { NextPageContext } from 'next'
-import { Query } from 'react-apollo'
+import React, {memo} from 'react'
+import {Query} from 'react-apollo'
 import gql from 'graphql-tag'
 
 const QUERY_GET_POST = gql`
@@ -13,17 +12,12 @@ const QUERY_GET_POST = gql`
   }
 `
 
-interface NextContextWithQuery extends NextPageContext {
-  query: {
-    id: string
-  }
-}
-
 interface Props {
-  id: string
+  id: string,
+  handleIsLoaded: (boolean) => void
 }
 
-const Post = ({ id }: Props) => {
+const Post = memo(({ id, handleIsLoaded }: Props) => {
   return (
     <Query query={QUERY_GET_POST} variables={{
       postId: id
@@ -32,6 +26,7 @@ const Post = ({ id }: Props) => {
         if (loading) {
           return null
         }
+        handleIsLoaded(true)
 
         const {
           post
@@ -45,9 +40,7 @@ const Post = ({ id }: Props) => {
       }}
     </Query>
   )
-}
-
-Post.getInitialProps = async ({ query }: NextContextWithQuery) => ({ id: query.id })
+})
 
 export {
   Post

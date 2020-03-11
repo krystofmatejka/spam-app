@@ -19,11 +19,14 @@ export class PostsResolver {
 
   @Query(() => PostConnection)
   public async posts (
+    @Arg('parent', { nullable: true}) parent: string,
     @Arg('first', { nullable: true }) first: number = 10,
     @Arg('after', { nullable: true }) after: string
   ): Promise<PostConnection> {
-    const findOptions = composeFindOptions(first, after)
-    const posts = await this.postRepository.find(findOptions)
+    const findOptions = (parent) ? { where: { parent }} : {}
+    const findOptionsWithCursor = composeFindOptions(first, after, findOptions)
+
+    const posts = await this.postRepository.find(findOptionsWithCursor)
     return createConnection(posts, first)
   }
 

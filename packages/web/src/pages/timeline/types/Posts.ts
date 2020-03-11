@@ -35,4 +35,5 @@ export interface Posts {
 
 export interface PostsVariables {
   cursor?: string | null;
+  parent?: string | null;
 }
