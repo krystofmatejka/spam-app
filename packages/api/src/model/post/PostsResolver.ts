@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Arg, ID } from 'type-graphql'
-import { getRepository } from 'typeorm'
+import { getRepository, IsNull } from 'typeorm'
 import { PostEntity } from './PostEntity'
 import { PostInput } from './PostInput'
 import { composeFindOptions } from '../../pagination/composeFindOptions'
@@ -23,7 +23,7 @@ export class PostsResolver {
     @Arg('first', { nullable: true }) first: number = 10,
     @Arg('after', { nullable: true }) after: string
   ): Promise<PostConnection> {
-    const findOptions = (parent) ? { where: { parent }} : {}
+    const findOptions = (parent) ? { where: { parent }} : { where: { parent: IsNull() } }
     const findOptionsWithCursor = composeFindOptions(first, after, findOptions)
 
     const posts = await this.postRepository.find(findOptionsWithCursor)
@@ -38,7 +38,7 @@ export class PostsResolver {
       text: input.text
     }
     if (input.parentId) {
-      Object.assign(data, { parent: { id: input.parentId }})
+      Object.assign(data, { parent: { id: parseInt(input.parentId, 10) }})
     }
     const article = this.postRepository.create(data)
 
