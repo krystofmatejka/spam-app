@@ -8,7 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "generate:types": "apollo codegen:generate --localSchemaFile=../../jetbrains-graphql-plugin/graphql.schema.json --target=typescript --includes=\"src/**/*\" --tagName=gql --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
+    "download-schema": "apollo schema:download --endpoint=http://localhost:5001/graphql ../../jetbrains-graphql-plugin/graphql.schema.json",
+    "generate-types": "apollo codegen:generate --localSchemaFile=../../jetbrains-graphql-plugin/graphql.schema.json --target=typescript --includes=\"src/**/*\" --tagName=gql --addTypename --globalTypesFile=src/types/graphql-global-types.ts types"
   },
   "keywords": [],
   "author": "",

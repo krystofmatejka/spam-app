@@ -1,5 +1,5 @@
 {
-  "name": "Untitled GraphQL Schema",
+  "name": "SPAM APP API",
   "schemaPath": "graphql.schema.json",
   "extensions": {
     "endpoints": {

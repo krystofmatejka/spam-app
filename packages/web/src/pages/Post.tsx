@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 
 const QUERY_GET_POST = gql`
   query PostById ($postId: ID!) {
-    getPost (
+    post (
       postId: $postId
     ) {
       text
@@ -34,7 +34,7 @@ const Post = ({ id }: Props) => {
         }
 
         const {
-          getPost: post
+          post
         } = data
 
         return (

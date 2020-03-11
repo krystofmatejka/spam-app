@@ -6,13 +6,13 @@
 // GraphQL query operation: PostById
 // ====================================================
 
-export interface PostById_getPost {
+export interface PostById_post {
   __typename: "PostEntity";
   text: string;
 }
 
 export interface PostById {
-  getPost: PostById_getPost;
+  post: PostById_post;
 }
 
 export interface PostByIdVariables {
