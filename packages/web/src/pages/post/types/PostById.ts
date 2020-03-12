@@ -16,5 +16,5 @@ export interface PostById {
 }
 
 export interface PostByIdVariables {
-  postId: string;
+  id: string;
 }

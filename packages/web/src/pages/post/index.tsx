@@ -3,9 +3,9 @@ import {Query} from 'react-apollo'
 import gql from 'graphql-tag'
 
 const QUERY_GET_POST = gql`
-  query PostById ($postId: ID!) {
+  query PostById ($id: ID!) {
     post (
-      postId: $postId
+      id: $id
     ) {
       text
     }
@@ -19,9 +19,7 @@ interface Props {
 
 const Post = memo(({id, handleIsLoaded}: Props) => {
   return (
-    <Query query={QUERY_GET_POST} variables={{
-      postId: id
-    }}>
+    <Query query={QUERY_GET_POST} variables={{id}}>
       {({data, loading}) => {
         if (loading) {
           return null

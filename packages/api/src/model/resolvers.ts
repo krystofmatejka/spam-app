@@ -1,2 +1,2 @@
-export * from './post/posts-resolver'
-export * from './user/users-resolver'
+export * from './post/post-resolver'
+export * from './user/user-resolver'

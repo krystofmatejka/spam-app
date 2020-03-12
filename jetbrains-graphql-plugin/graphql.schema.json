@@ -18,7 +18,7 @@
             "description": null,
             "args": [
               {
-                "name": "postId",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
