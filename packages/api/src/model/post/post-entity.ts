@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm'
-import { Field, ID, ObjectType } from 'type-graphql'
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from 'typeorm'
+import {Field, ID, ObjectType} from 'type-graphql'
 
 @Entity()
 @ObjectType()
@@ -12,11 +12,11 @@ export class PostEntity {
   @Field()
   public text: string
 
-  @ManyToOne(() => PostEntity, (post) => post.children, { lazy: true })
-  @Field(() => PostEntity, { nullable: true })
+  @ManyToOne(() => PostEntity, (post) => post.children, {lazy: true})
+  @Field(() => PostEntity, {nullable: true})
   public parent: PostEntity
 
-  @OneToMany(() => PostEntity, (post) => post.parent, { lazy: true })
-  @Field(() => [ PostEntity ])
+  @OneToMany(() => PostEntity, (post) => post.parent, {lazy: true})
+  @Field(() => [PostEntity])
   public children: PostEntity[]
 }
