@@ -1,7 +1,6 @@
 import * as pino from 'pino'
-import { ILogger } from './ILogger'
 
-export class Logger implements ILogger {
+class Logger {
   private driver
 
   constructor (level: string = 'debug', pretty: boolean = true) {
@@ -31,3 +30,5 @@ export class Logger implements ILogger {
     this.driver.fatal(message)
   }
 }
+
+export const logger = new Logger()
