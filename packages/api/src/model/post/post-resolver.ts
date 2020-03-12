@@ -1,4 +1,4 @@
-import {Resolver, Query, Mutation, Arg, ID} from 'type-graphql'
+import {Resolver, Query, Mutation, Subscription, Arg, ID, PubSub, Publisher, Root} from 'type-graphql'
 import {PostEntity} from './post-entity'
 import {PostInput} from './post-input'
 import {createConnection} from '../../pagination'
@@ -27,9 +27,22 @@ export class PostResolver {
   }
 
   @Mutation(() => PostEntity)
-  public createPost(
-    @Arg('input') input: PostInput
+  public async createPost(
+    @Arg('input') input: PostInput,
+    @PubSub('NEW_POST') notifyNewPost: Publisher<PostEntity>
   ) {
-    return this.postService.createPost(input)
+    const post = await this.postService.createPost(input)
+    await notifyNewPost(post)
+
+    return post
+  }
+
+  @Subscription({
+    topics: 'NEW_POST'
+  })
+  public newPosts(
+    @Root() post: PostEntity
+  ): PostEntity {
+    return post
   }
 }
