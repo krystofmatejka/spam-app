@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { Field, ID, ObjectType } from 'type-graphql'
+import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
+import {Field, ID, ObjectType} from 'type-graphql'
 
 @Entity()
 @ObjectType()

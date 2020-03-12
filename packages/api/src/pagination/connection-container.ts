@@ -1,5 +1,5 @@
-import { ClassType, Field, ObjectType } from 'type-graphql'
-import { PageInfo } from './PageInfo'
+import {ClassType, Field, ObjectType} from 'type-graphql'
+import {PageInfo} from './page-info'
 
 export const ConnectionContainer = <T>(name: string, TEntity: ClassType<T>) => {
   @ObjectType(`${name}Edge`)
@@ -11,9 +11,9 @@ export const ConnectionContainer = <T>(name: string, TEntity: ClassType<T>) => {
     public node: T
   }
 
-  @ObjectType({ isAbstract: true })
+  @ObjectType({isAbstract: true})
   abstract class Connection {
-    @Field(() => [ Edge ])
+    @Field(() => [Edge])
     public edges: Edge[] = []
 
     @Field(() => PageInfo)

@@ -1,2 +1,2 @@
-export * from './post/PostEntity'
-export * from './user/UserEntity'
+export * from './post/post-entity'
+export * from './user/user-entity'

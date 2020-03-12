@@ -1,27 +1,26 @@
-import { Resolver, Query, Mutation, Arg, ID } from 'type-graphql'
-import { getRepository, IsNull } from 'typeorm'
-import { PostEntity } from './PostEntity'
-import { PostInput } from './PostInput'
-import { composeFindOptions } from '../../pagination/composeFindOptions'
-import { createConnection } from '../../pagination/createConnection'
-import { PostConnection } from './PostConnection'
+import {Resolver, Query, Mutation, Arg, ID} from 'type-graphql'
+import {getRepository, IsNull} from 'typeorm'
+import {PostEntity} from './post-entity'
+import {PostInput} from './post-input'
+import {createConnection, composeFindOptions} from '../../pagination'
+import {PostConnection} from './post-connection'
 
 @Resolver()
 export class PostsResolver {
   private postRepository = getRepository(PostEntity)
 
   @Query(() => PostEntity)
-  public post (
+  public post(
     @Arg('postId', () => ID) postId: string
   ): Promise<PostEntity> {
     return this.postRepository.findOne(postId)
   }
 
   @Query(() => PostConnection)
-  public async posts (
-    @Arg('first', { nullable: true }) first: number = 10,
-    @Arg('after', { nullable: true }) after: string = null,
-    @Arg('parent', { nullable: true}) parent: string = null
+  public async posts(
+    @Arg('first', {nullable: true}) first: number = 10,
+    @Arg('after', {nullable: true}) after: string = null,
+    @Arg('parent', {nullable: true}) parent: string = null
   ): Promise<PostConnection> {
     const findOptions = {
       where: {
@@ -35,7 +34,7 @@ export class PostsResolver {
   }
 
   @Mutation(() => PostEntity)
-  public createPost (
+  public createPost(
     @Arg('input') input: PostInput
   ): Promise<PostEntity> {
     const data = {
