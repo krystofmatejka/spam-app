@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Mutation} from 'react-apollo'
+import {useMutation} from '@apollo/client'
 import gql from 'graphql-tag'
 
 const MUTATION_CREATE_POST = gql`
@@ -35,61 +35,57 @@ interface Props {
 
 const Form = ({disabled, parent}: Props) => {
   const [post, setPost] = useState('')
+  const [addPost] = useMutation(MUTATION_CREATE_POST, {
+    update(cache, {data}) {
+      const posts: any = cache.readQuery({
+        query: QUERY_GET_POSTS,
+        variables: {
+          parent
+        }
+      })
+
+      cache.writeQuery({
+        query: QUERY_GET_POSTS,
+        variables: {
+          parent
+        },
+        data: {
+          posts: {
+            ...posts.posts,
+            edges: [
+              {
+                node: {
+                  ...data.createPost
+                },
+                __typename: 'PostEdge'
+              }
+            ].concat(posts.posts.edges)
+          }
+        }
+      })
+    }
+  })
 
   return (
-    <Mutation
-      mutation={MUTATION_CREATE_POST}
-      update={(cache, {data}) => {
-        const posts = cache.readQuery({
-          query: QUERY_GET_POSTS,
-          variables: {
-            parent
+    <form onSubmit={(event) => {
+      event.preventDefault()
+      addPost({
+        variables: {
+          input: {
+            text: post,
+            parent: parent
           }
-        })
-
-        cache.writeQuery({
-          query: QUERY_GET_POSTS,
-          variables: {
-            parent
-          },
-          data: {
-            posts: {
-              ...posts.posts,
-              edges: [
-                {
-                  node: {
-                    ...data.createPost
-                  },
-                  __typename: 'PostEdge'
-                }
-              ].concat(posts.posts.edges)
-            }
-          }
-        })
-      }}
-    >
-      {(createPost: Function) => (
-        <form onSubmit={(event) => {
-          event.preventDefault()
-          createPost({
-            variables: {
-              input: {
-                text: post,
-                parent: parent
-              }
-            }
-          })
-          setPost('')
-        }}>
-          <div>
-            <textarea disabled={disabled} value={post} onChange={(e) => setPost(e.target.value)}/>
-          </div>
-          <div>
-            <button type='submit' disabled={disabled}>Submit</button>
-          </div>
-        </form>
-      )}
-    </Mutation>
+        }
+      })
+      setPost('')
+    }}>
+      <div>
+        <textarea disabled={disabled} value={post} onChange={(e) => setPost(e.target.value)}/>
+      </div>
+      <div>
+        <button type='submit' disabled={disabled}>Submit</button>
+      </div>
+    </form>
   )
 }
 

@@ -1,11 +1,12 @@
 import withApollo from 'next-with-apollo'
-import ApolloClient, { InMemoryCache } from 'apollo-boost'
+import {ApolloClient, HttpLink, InMemoryCache} from '@apollo/client'
 
 const GRAPHQL_ENDPOINT = 'http://localhost:5001/graphql'
 
-export default withApollo(({ initialState }) => {
-  return new ApolloClient({
-    uri: GRAPHQL_ENDPOINT,
-    cache: new InMemoryCache().restore(initialState || {})
+// @ts-ignore
+export default withApollo(({ initialState = {} }) => new ApolloClient({
+  cache: new InMemoryCache().restore(initialState),
+  link: new HttpLink({
+    uri: GRAPHQL_ENDPOINT
   })
-})
+}))

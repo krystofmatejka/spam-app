@@ -1,6 +1,7 @@
 import React, {memo} from 'react'
-import {Query} from 'react-apollo'
+import {useQuery} from '@apollo/client'
 import gql from 'graphql-tag'
+import {PostById} from './types/PostById'
 
 const QUERY_GET_POST = gql`
   query PostById ($id: ID!) {
@@ -18,25 +19,25 @@ interface Props {
 }
 
 const Post = memo(({id, handleIsLoaded}: Props) => {
+  const {loading, data} = useQuery<PostById>(QUERY_GET_POST, {
+    variables: {
+      id
+    }
+  })
+
+  if (loading) {
+    return null
+  }
+  handleIsLoaded(true)
+
+  const {
+    post
+  } = data!
+
   return (
-    <Query query={QUERY_GET_POST} variables={{id}}>
-      {({data, loading}) => {
-        if (loading) {
-          return null
-        }
-        handleIsLoaded(true)
-
-        const {
-          post
-        } = data
-
-        return (
-          <div>
-            {post.text}
-          </div>
-        )
-      }}
-    </Query>
+    <div>
+      {post.text}
+    </div>
   )
 })
 

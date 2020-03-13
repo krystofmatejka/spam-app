@@ -1,3 +1,3 @@
-import { App } from '../src/pages/app'
+import {App} from '../src/pages/app'
 
 export default App

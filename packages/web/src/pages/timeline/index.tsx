@@ -1,5 +1,5 @@
 import React from 'react'
-import {Query} from 'react-apollo'
+import {useQuery} from '@apollo/client'
 import gql from 'graphql-tag'
 import {Posts} from './types/Posts'
 import Link from 'next/link'
@@ -27,74 +27,77 @@ interface Props {
 }
 
 const Timeline = ({parent}: Props) => {
-  return (
-    <Query<Posts> query={QUERY_GET_POSTS} variables={{parent}}>
-      {({data, loading, fetchMore}) => {
-        if (loading) {
-          return null
-        }
+  const {loading, error, data, fetchMore} = useQuery<Posts>(QUERY_GET_POSTS, {
+    variables: {
+      parent
+    }
+  })
 
-        const {
-          posts: {
-            edges,
-            pageInfo: {
-              hasNextPage,
-              endCursor
+  if (loading) {
+    return <div>loading...</div>
+  }
+  if (error) {
+    return <div>error!</div>
+  }
+
+  const {
+    posts: {
+      edges,
+      pageInfo: {
+        hasNextPage,
+        endCursor
+      }
+    },
+  } = data!
+
+  return (
+    <>
+      {
+        edges.map(edge => {
+          const {
+            node: post
+          } = edge
+
+          return (
+            <h2 key={post.id}>
+              <Link
+                href={{pathname: ROUTES.APP.page, query: {id: post.id}}}
+                as={`/${post.id}`}
+              >
+                <a>
+                  {post.text}
+                </a>
+              </Link>
+            </h2>
+          )
+        })
+      }
+      <button onClick={() => {
+        fetchMore({
+          variables: {
+            cursor: endCursor
+          },
+          updateQuery: (previous, {fetchMoreResult}) => {
+            const {
+              posts,
+              posts: {
+                edges
+              }
+            } = fetchMoreResult!
+
+            return {
+              posts: {
+                ...posts,
+                edges: [
+                  ...previous.posts.edges, ...edges
+                ]
+              }
             }
           }
-        } = data!
-
-        return (
-          <>
-            {
-              edges.map(edge => {
-                const {
-                  node: post
-                } = edge
-
-                return (
-                  <h2 key={post.id}>
-                    <Link
-                      href={{pathname: ROUTES.APP.page, query: {id: post.id}}}
-                      as={`/${post.id}`}
-                    >
-                      <a>
-                        {post.text}
-                      </a>
-                    </Link>
-                  </h2>
-                )
-              })
-            }
-            <button onClick={() => {
-              fetchMore({
-                variables: {
-                  cursor: endCursor
-                },
-                updateQuery: (previous, {fetchMoreResult}) => {
-                  const {
-                    posts,
-                    posts: {
-                      edges
-                    }
-                  } = fetchMoreResult!
-
-                  return {
-                    posts: {
-                      ...posts,
-                      edges: [
-                        ...previous.posts.edges, ...edges
-                      ]
-                    }
-                  }
-                }
-              })
-            }} disabled={!hasNextPage}>Load more
-            </button>
-          </>
-        )
-      }}
-    </Query>
+        })
+      }} disabled={!hasNextPage}>Load more
+      </button>
+    </>
   )
 }
 

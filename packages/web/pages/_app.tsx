@@ -1,6 +1,6 @@
 import React from 'react'
 import App, {Container, AppInitialProps} from 'next/app'
-import {ApolloProvider} from 'react-apollo'
+import {ApolloProvider} from '@apollo/client'
 import {withApollo} from '../src/lib'
 
 interface Props extends AppInitialProps {
