@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useQuery} from '@apollo/client'
 import gql from 'graphql-tag'
 import {Posts} from './types/Posts'
+import {NewPost} from './types/NewPost'
 import Link from 'next/link'
 import {ROUTES} from '../../constants'
 
@@ -22,16 +23,52 @@ const QUERY_GET_POSTS = gql`
   }
 `
 
+const SUBSCRIPTION_NEW_POST = gql`
+  subscription NewPost {
+    newPosts {
+      id
+      text
+    }
+  }
+`
+
 interface Props {
   parent?: string
 }
 
 const Timeline = ({parent}: Props) => {
-  const {loading, error, data, fetchMore} = useQuery<Posts>(QUERY_GET_POSTS, {
+  const {loading, error, data, fetchMore, subscribeToMore} = useQuery<Posts>(QUERY_GET_POSTS, {
     variables: {
       parent
     }
   })
+
+  useEffect(() => {
+    subscribeToMore<NewPost>({
+      document: SUBSCRIPTION_NEW_POST,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data) {
+          return prev
+        }
+        const {
+          posts
+        } = prev
+
+        return {
+          posts: {
+            ...posts,
+            edges: [
+              {
+                node: subscriptionData.data.newPosts,
+                __typename: 'PostEdge'
+              },
+              ...posts.edges
+            ]
+          }
+        }
+      }
+    })
+  }, [])
 
   if (loading) {
     return <div>loading...</div>

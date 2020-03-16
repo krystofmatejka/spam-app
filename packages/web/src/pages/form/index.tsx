@@ -12,7 +12,7 @@ const MUTATION_CREATE_POST = gql`
 `
 
 const QUERY_GET_POSTS = gql`
-  query Posts ($cursor: String, $parent: String) {
+  query PostsCache ($cursor: String, $parent: String) {
     posts (first: 10, after: $cursor, parent: $parent) {
       edges {
         node {
@@ -36,7 +36,7 @@ interface Props {
 const Form = ({disabled, parent}: Props) => {
   const [post, setPost] = useState('')
   const [addPost] = useMutation(MUTATION_CREATE_POST, {
-    update(cache, {data}) {
+    /*update(cache, {data}) {
       const posts: any = cache.readQuery({
         query: QUERY_GET_POSTS,
         variables: {
@@ -63,7 +63,7 @@ const Form = ({disabled, parent}: Props) => {
           }
         }
       })
-    }
+    }*/
   })
 
   return (

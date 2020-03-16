@@ -3,22 +3,16 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PostInput } from "./../../../types/graphql-global-types";
-
 // ====================================================
-// GraphQL mutation operation: CreatePost
+// GraphQL subscription operation: NewPost
 // ====================================================
 
-export interface CreatePost_createPost {
+export interface NewPost_newPosts {
   __typename: "PostEntity";
   id: string;
   text: string;
 }
 
-export interface CreatePost {
-  createPost: CreatePost_createPost;
-}
-
-export interface CreatePostVariables {
-  input: PostInput;
+export interface NewPost {
+  newPosts: NewPost_newPosts;
 }

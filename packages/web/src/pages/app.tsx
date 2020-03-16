@@ -32,6 +32,4 @@ const App = ({id}: Props) => {
 
 App.getInitialProps = async ({query: {id = ''}}: NextContextWithQuery) => ({id})
 
-export {
-  App
-}
+export default App
