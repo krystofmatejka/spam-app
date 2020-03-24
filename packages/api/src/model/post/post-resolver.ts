@@ -37,7 +37,7 @@ export class PostResolver {
     return post
   }
 
-  @Subscription({
+  @Subscription(() => PostEntity, {
     topics: 'NEW_POST'
   })
   public newPosts(

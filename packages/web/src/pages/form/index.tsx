@@ -36,7 +36,7 @@ interface Props {
 const Form = ({disabled, parent}: Props) => {
   const [post, setPost] = useState('')
   const [addPost] = useMutation(MUTATION_CREATE_POST, {
-    /*update(cache, {data}) {
+    update(cache, {data}) {
       const posts: any = cache.readQuery({
         query: QUERY_GET_POSTS,
         variables: {
@@ -44,26 +44,29 @@ const Form = ({disabled, parent}: Props) => {
         }
       })
 
-      cache.writeQuery({
-        query: QUERY_GET_POSTS,
-        variables: {
-          parent
-        },
-        data: {
-          posts: {
-            ...posts.posts,
-            edges: [
-              {
-                node: {
-                  ...data.createPost
-                },
-                __typename: 'PostEdge'
-              }
-            ].concat(posts.posts.edges)
+      const exists = posts.posts.edges.find((edge) => edge.node.id === data.createPost.id)
+      if (!exists) {
+        cache.writeQuery({
+          query: QUERY_GET_POSTS,
+          variables: {
+            parent
+          },
+          data: {
+            posts: {
+              ...posts.posts,
+              edges: [
+                {
+                  node: {
+                    ...data.createPost
+                  },
+                  __typename: 'PostEdge'
+                }
+              ].concat(posts.posts.edges)
+            }
           }
-        }
-      })
-    }*/
+        })
+      }
+    }
   })
 
   return (

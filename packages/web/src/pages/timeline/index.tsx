@@ -47,19 +47,26 @@ const Timeline = ({parent}: Props) => {
     subscribeToMore<NewPost>({
       document: SUBSCRIPTION_NEW_POST,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
-          return prev
-        }
         const {
           posts
         } = prev
+        const {
+          data: {
+            newPosts: newPost
+          }
+        } = subscriptionData
+
+        const exists = posts.edges.find((edge) => edge.node.id === newPost.id)
+        if (!subscriptionData.data || exists) {
+          return prev
+        }
 
         return {
           posts: {
             ...posts,
             edges: [
               {
-                node: subscriptionData.data.newPosts,
+                node: newPost,
                 __typename: 'PostEdge'
               },
               ...posts.edges
