@@ -1,5 +1,6 @@
 import React from 'react'
 import {PostById} from '../../types/PostById'
+import {Post as StyledPost} from './post'
 
 interface Props {
   loading: boolean,
@@ -18,7 +19,7 @@ export const Post = ({loading, data}: Props) => {
 
   if (post) {
     return (
-      <h1>{post.text}</h1>
+      <StyledPost>{post.text}</StyledPost>
     )
   }
 
