@@ -6,6 +6,7 @@ import {PostById} from './types/PostById'
 import {Posts} from './types/Posts'
 import {Form, Post, Timeline} from './components'
 import {NewPost} from './types/NewPost'
+import {updateCacheAfterMutation, updateCacheAfterSubscription, updateCacheAfterLoadMore} from './lib'
 
 interface NextContextWithQuery extends NextPageContext {
   query: {
@@ -15,92 +16,6 @@ interface NextContextWithQuery extends NextPageContext {
 
 interface Props {
   id: string
-}
-
-const updateCacheAfterMutation = (cache, data, parent?) => {
-  const posts: any = cache.readQuery({
-    query: QUERY_GET_POSTS,
-    variables: {
-      parent
-    }
-  })
-
-  const exists = posts.posts.edges.find((edge) => edge.node.id === data.createPost.id)
-  if (!exists) {
-    cache.writeQuery({
-      query: QUERY_GET_POSTS,
-      variables: {
-        parent
-      },
-      data: {
-        posts: {
-          ...posts.posts,
-          edges: [
-            {
-              node: {
-                ...data.createPost
-              },
-              __typename: 'PostEdge'
-            }
-          ].concat(posts.posts.edges)
-        }
-      }
-    })
-  }
-}
-
-const loadMorePosts = (fetchMore, cursor) => {
-  fetchMore({
-    variables: {
-      cursor
-    },
-    updateQuery: (previous, {fetchMoreResult}) => {
-      const {
-        posts,
-        posts: {
-          edges
-        }
-      } = fetchMoreResult!
-
-      return {
-        posts: {
-          ...posts,
-          edges: [
-            ...previous.posts.edges, ...edges
-          ]
-        }
-      }
-    }
-  })
-}
-
-const updateCacheAfterSubscription = (previousData, subscriptionData) => {
-  const {
-    posts
-  } = previousData
-  const {
-    data: {
-      newPosts: newPost
-    }
-  } = subscriptionData
-
-  const exists = posts.edges.find((edge) => edge.node.id === newPost.id)
-  if (!subscriptionData.data || exists) {
-    return previousData
-  }
-
-  return {
-    posts: {
-      ...posts,
-      edges: [
-        {
-          node: newPost,
-          __typename: 'PostEdge'
-        },
-        ...posts.edges
-      ]
-    }
-  }
 }
 
 const Root = () => {
@@ -133,7 +48,14 @@ const Root = () => {
         loading={postsResult.loading}
         error={postsResult.error}
         data={postsResult.data}
-        handleLoadMore={(endCursor) => loadMorePosts(postsResult.fetchMore, endCursor)}
+        handleLoadMore={(endCursor) => {
+          postsResult.fetchMore({
+            variables: {
+              cursor: endCursor
+            },
+            updateQuery: (previous, {fetchMoreResult}) => updateCacheAfterLoadMore(previous, fetchMoreResult)
+          })
+        }}
       />
     </>
   )
@@ -189,7 +111,14 @@ const Nested = ({id}: {id: string}) => {
         loading={postsResult.loading}
         error={postsResult.error}
         data={postsResult.data}
-        handleLoadMore={(endCursor) => loadMorePosts(postsResult.fetchMore, endCursor)}
+        handleLoadMore={(endCursor) => {
+          postsResult.fetchMore({
+            variables: {
+              cursor: endCursor
+            },
+            updateQuery: (previous, {fetchMoreResult}) => updateCacheAfterLoadMore(previous, fetchMoreResult)
+          })
+        }}
       />
     </>
   )
