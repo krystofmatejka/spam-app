@@ -5,6 +5,11 @@ import {createConnection} from '../../pagination'
 import {PostConnection} from './post-connection'
 import {PostService} from './post-service'
 
+interface PostSubscription {
+  post: PostEntity,
+  parent?: string
+}
+
 @Resolver()
 export class PostResolver {
   private postService = new PostService()
@@ -29,20 +34,23 @@ export class PostResolver {
   @Mutation(() => PostEntity)
   public async createPost(
     @Arg('input') input: PostInput,
-    @PubSub('NEW_POST') notifyNewPost: Publisher<PostEntity>
+    @PubSub('NEW_POST') notifyNewPost: Publisher<PostSubscription>
   ) {
     const post = await this.postService.createPost(input)
-    await notifyNewPost(post)
+    await notifyNewPost({post, parent: input.parent})
 
     return post
   }
 
   @Subscription(() => PostEntity, {
-    topics: 'NEW_POST'
+    topics: 'NEW_POST',
+    // tslint:disable-next-line:triple-equals
+    filter: async ({payload, args}) => args.parent == payload.parent
   })
   public newPosts(
-    @Root() post: PostEntity
+    @Root() payload: PostSubscription,
+    @Arg('parent', {nullable: true}) parent: string = null
   ): PostEntity {
-    return post
+    return payload.post
   }
 }

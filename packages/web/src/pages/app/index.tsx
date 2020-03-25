@@ -155,7 +155,13 @@ const Nested = ({id}: {id: string}) => {
   })
 
   useEffect(() => {
-    // td add subscription to parent id
+    postsResult.subscribeToMore<NewPost>({
+      document: SUBSCRIPTION_NEW_POST,
+      variables: {
+        parent: id
+      },
+      updateQuery: (prev, {subscriptionData}) => updateCacheAfterSubscription(prev, subscriptionData)
+    })
   }, [])
 
   return (
