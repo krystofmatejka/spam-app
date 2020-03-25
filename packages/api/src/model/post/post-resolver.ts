@@ -45,7 +45,7 @@ export class PostResolver {
   @Subscription(() => PostEntity, {
     topics: 'NEW_POST',
     // tslint:disable-next-line:triple-equals
-    filter: async ({payload, args}) => args.parent == payload.parent
+    filter: ({payload, args}) => args.parent == payload.parent
   })
   public newPosts(
     @Root() payload: PostSubscription,
