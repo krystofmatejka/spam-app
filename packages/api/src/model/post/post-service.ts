@@ -7,7 +7,8 @@ export class PostService {
   private postRepository = getRepository(PostEntity)
 
   public findPost(id: string) {
-    return this.postRepository.findOne(parseInt(id, 10))
+    const parsedId = id ? parseInt(id, 10) : 0
+    return this.postRepository.findOne(parsedId)
   }
 
   public findPosts(first: number, after?: string, parent?: string) {

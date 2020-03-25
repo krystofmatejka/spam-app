@@ -9,9 +9,9 @@ import {PostService} from './post-service'
 export class PostResolver {
   private postService = new PostService()
 
-  @Query(() => PostEntity)
+  @Query(() => PostEntity, {nullable: true})
   public post(
-    @Arg('id', () => ID) id: string
+    @Arg('id', () => ID, {nullable: true}) id: string
   ) {
     return this.postService.findPost(id)
   }
