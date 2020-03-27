@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import App, {Container, AppInitialProps} from 'next/app'
 import {ApolloProvider} from '@apollo/client'
 import {withApollo} from '../src/lib'
@@ -18,11 +19,20 @@ class SpamApp extends App<Props> {
     } = this
 
     return (
-      <Container>
-        <ApolloProvider client={apollo}>
-          <Component {...pageProps}/>
-        </ApolloProvider>
-      </Container>
+      <>
+        <Head>
+          <link
+            href='https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700'
+            rel='stylesheet'
+          />
+          <title>Spam app</title>
+        </Head>
+        <Container>
+          <ApolloProvider client={apollo}>
+            <Component {...pageProps}/>
+          </ApolloProvider>
+        </Container>
+      </>
     )
   }
 }

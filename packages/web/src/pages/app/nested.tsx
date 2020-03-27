@@ -40,7 +40,6 @@ export const Nested = ({id}: {id: string}) => {
         data={postResult.data}
       />
       <Form
-        parent={id}
         disabled={postResult.loading}
         handleSubmit={(post) => {
           addPost({
