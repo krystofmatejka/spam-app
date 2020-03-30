@@ -5,10 +5,11 @@ import {Post as StyledPost} from './post'
 interface Props {
   loading: boolean,
   error: any,
-  data?: PostById
+  data?: PostById,
+  main?: boolean
 }
 
-export const Post = ({loading, data}: Props) => {
+export const Post = ({loading, data, main}: Props) => {
   if (loading) {
     return <div>loading...</div>
   }
@@ -19,7 +20,7 @@ export const Post = ({loading, data}: Props) => {
 
   if (post) {
     return (
-      <StyledPost>{post.text}</StyledPost>
+      <StyledPost main={main}>{post.text}</StyledPost>
     )
   }
 

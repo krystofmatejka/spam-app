@@ -2,7 +2,13 @@ import React from 'react'
 import Head from 'next/head'
 import App, {Container, AppInitialProps} from 'next/app'
 import {ApolloProvider} from '@apollo/client'
+import styled from 'styled-components'
 import {withApollo} from '../src/lib'
+
+const Body = styled.div`
+  width: 580px;
+  margin: 20px auto;
+`
 
 interface Props extends AppInitialProps {
   apollo: any
@@ -29,7 +35,9 @@ class SpamApp extends App<Props> {
         </Head>
         <Container>
           <ApolloProvider client={apollo}>
-            <Component {...pageProps}/>
+            <Body>
+              <Component {...pageProps}/>
+            </Body>
           </ApolloProvider>
         </Container>
       </>

@@ -1,8 +1,19 @@
 import React from 'react'
 import Link from 'next/link'
+import styled from 'styled-components'
 import {Posts} from '../../types/Posts'
 import {ROUTES} from '../../../../constants'
 import {Post} from '../post/post'
+import {Button} from '../form/button'
+
+const Container = styled.div`
+  margin: 50px 0;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 interface Props {
   loading: boolean
@@ -17,7 +28,7 @@ export const Timeline = ({loading, error, data, handleLoadMore}: Props) => {
   }
 
   return (
-    <div>
+    <Container>
       {
         data!.posts.edges.map((edge) => {
           const {
@@ -38,12 +49,14 @@ export const Timeline = ({loading, error, data, handleLoadMore}: Props) => {
           )
         })
       }
-      <button
-        onClick={() => handleLoadMore(data!.posts.pageInfo.endCursor)}
-        disabled={!(data!.posts.pageInfo.hasNextPage)}
-      >
-        Load more
-      </button>
-    </div>
+      <ButtonContainer>
+        <Button
+          onClick={() => handleLoadMore(data!.posts.pageInfo.endCursor)}
+          disabled={!(data!.posts.pageInfo.hasNextPage)}
+        >
+          Load more
+        </Button>
+      </ButtonContainer>
+    </Container>
   )
 }
