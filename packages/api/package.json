@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "ts-node index.ts",
     "start:watch": "NODE_ENV=development nodemon",
     "tslint": "tslint --project .",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,5 +36,8 @@
     "nodemon": "^1.18.10",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.3333"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
