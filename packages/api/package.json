@@ -3,39 +3,41 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "node .build/index.js",
     "start:watch": "NODE_ENV=development nodemon",
     "tslint": "tslint --project .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker-compose:up": "docker-compose -f docker/local/docker-compose.yml up -d",
-    "docker-compose:stop": "docker-compose -f docker/local/docker-compose.yml stop"
+    "docker-compose:stop": "docker-compose -f docker/local/docker-compose.yml stop",
+    "build": "tsc --project ./tsconfig.json"
   },
   "keywords": [],
   "author": "Hiro Protagonist",
   "license": "ISC",
   "dependencies": {
-    "@types/ramda": "^0.26.15",
-    "apollo": "^2.6.0",
-    "apollo-server": "^2.4.8",
-    "config": "^3.0.1",
-    "graphql": "^14.1.1",
-    "mysql2": "^1.6.5",
-    "pino": "^5.11.1",
+    "@types/ramda": "^0.26.44",
+    "apollo": "^2.25.0",
+    "apollo-server": "^2.11.0",
+    "config": "^3.3.1",
+    "graphql": "^14.6.0",
+    "mysql2": "^1.7.0",
+    "pg": "^8.0.0",
+    "pino": "^5.17.0",
     "pino-pretty": "^2.5.0",
     "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
-    "tslint": "^5.13.1",
-    "type-graphql": "^0.17.0",
-    "typeorm": "^0.2.14"
+    "tslint": "^5.20.1",
+    "type-graphql": "^0.17.6",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@types/config": "0.0.34",
-    "@types/graphql": "^14.0.7",
-    "@types/node": "^11.11.0",
-    "@types/pino": "^5.8.5",
-    "nodemon": "^1.18.10",
-    "ts-node": "^8.0.3",
-    "typescript": "^3.3.3333"
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^11.15.8",
+    "@types/pino": "^5.17.0",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": "10.x"

@@ -4,17 +4,23 @@
     "version": null
   },
   "server": {
-    "port": 5001
+    "port": 5001,
+    "corsOrigin": "http://localhost"
   },
   "graphql": {
     "endpoint": "graphql"
   },
   "database": {
     "host": "127.0.0.1",
-    "port": 3306,
+    "port": 5432,
     "username": "root",
     "password": "root",
     "name": "spam",
+    "url": null,
     "synchronizeSchema": true
+  },
+  "build": {
+    "outDir": ".",
+    "extension": "ts"
   }
 }

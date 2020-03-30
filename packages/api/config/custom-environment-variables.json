@@ -2,5 +2,11 @@
   "app": {
     "env": "NODE_ENV",
     "version": "npm_package_version"
+  },
+  "server": {
+    "port": "PORT"
+  },
+  "database": {
+    "url": "DATABASE_URL"
   }
 }

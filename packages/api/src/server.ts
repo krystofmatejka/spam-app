@@ -16,10 +16,11 @@ export class Server {
     })
 
     const server = new ApolloServer({
-      schema
+      schema,
+      cors: true
     })
 
-    server.listen(config.SERVER_PORT).then(({url}) => {
+    server.listen(config.SERVER_PORT, '0.0.0.0').then(({url}) => {
       logger.info(`Server is running at ${url}`)
     })
   }
