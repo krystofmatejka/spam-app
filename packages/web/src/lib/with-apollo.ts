@@ -3,7 +3,6 @@ import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client'
 import {WebSocketLink} from 'apollo-link-ws'
 import {getMainDefinition} from 'apollo-utilities'
 
-//const GRAPHQL_ENDPOINT = 'spam-app-api.herokuapp.com/graphql'
 declare var GRAPHQL_PROTOCOL: string
 declare var GRAPHQL_ENDPOINT: string
 
