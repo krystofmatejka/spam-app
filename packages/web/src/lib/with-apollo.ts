@@ -3,13 +3,17 @@ import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client'
 import {WebSocketLink} from 'apollo-link-ws'
 import {getMainDefinition} from 'apollo-utilities'
 
+//const GRAPHQL_ENDPOINT = 'spam-app-api.herokuapp.com/graphql'
+declare var GRAPHQL_PROTOCOL: string
+declare var GRAPHQL_ENDPOINT: string
+
 const httpLink = new HttpLink({
-  uri: 'http://localhost:5001/graphql'
+  uri: `${GRAPHQL_PROTOCOL}://${GRAPHQL_ENDPOINT}`
 })
 
 //https://github.com/apollographql/subscriptions-transport-ws/issues/333
 const wsLink = process.browser ? new WebSocketLink({
-  uri: 'ws://localhost:5001/graphql',
+  uri: `ws://${GRAPHQL_ENDPOINT}`,
   options: {
     reconnect: true
   }

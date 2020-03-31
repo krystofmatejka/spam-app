@@ -1,0 +1,16 @@
+{
+  "app": {
+    "env": "local",
+    "version": null
+  },
+  "server": {
+    "port": 5001
+  },
+  "graphql": {
+    "protocol": "http",
+    "endpoint": "localhost:5001/graphql"
+  },
+  "build": {
+    "dynamic": true
+  }
+}

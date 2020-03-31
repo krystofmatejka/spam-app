@@ -1,12 +1,13 @@
 import express from 'express'
 import next from 'next'
+import config from 'config'
 import {ROUTES} from './constants'
 
 export class Server {
   private express = express()
 
   private next = next({
-    dev: true
+    dev: config.get('build.dynamic')
   })
 
   public async start() {
@@ -26,9 +27,9 @@ export class Server {
       return handle(req, res)
     })
 
-    const port = 5002
+    const port: number = config.get('server.port')
     this.express
-      .listen(port, () => {
+      .listen(port, '0.0.0.0', () => {
         console.info(`Server is running at http://localhost:${port}`)
       })
   }
