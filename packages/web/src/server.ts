@@ -13,8 +13,6 @@ export class Server {
   public async start() {
     await this.next.prepare()
 
-    const handle = this.next.getRequestHandler()
-
     Object.values(ROUTES).forEach((route) => {
       this.express.get(route.path, async (req, res) => {
         console.log(`Requesting ${route.path}`)
@@ -23,9 +21,8 @@ export class Server {
       })
     })
 
-    this.express.get('*', (req, res) => {
-      return handle(req, res)
-    })
+    // @ts-ignore
+    this.express.use(this.next.getRequestHandler())
 
     const port: number = config.get('server.port')
     this.express

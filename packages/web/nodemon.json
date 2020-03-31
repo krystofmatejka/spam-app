@@ -3,6 +3,7 @@
   "ext": "ts,js,json",
   "watch": [
     "src/*",
+    "pages/*",
     "config/*"
   ],
   "exec": "ts-node --project tsconfig.server.json index.ts"

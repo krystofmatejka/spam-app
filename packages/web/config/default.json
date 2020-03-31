@@ -4,7 +4,7 @@
     "version": null
   },
   "server": {
-    "port": 5001
+    "port": 5002
   },
   "graphql": {
     "protocol": "http",
