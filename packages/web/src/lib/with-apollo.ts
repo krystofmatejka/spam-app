@@ -3,16 +3,19 @@ import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client'
 import {WebSocketLink} from 'apollo-link-ws'
 import {getMainDefinition} from 'apollo-utilities'
 
-declare var GRAPHQL_PROTOCOL: string
+declare var IS_GRAPHQL_SECURED: string
 declare var GRAPHQL_ENDPOINT: string
 
+const httpProtocol = IS_GRAPHQL_SECURED? 'https' : 'http'
+const socketProtocol = IS_GRAPHQL_SECURED? 'wss' : 'ws'
+
 const httpLink = new HttpLink({
-  uri: `${GRAPHQL_PROTOCOL}://${GRAPHQL_ENDPOINT}`
+  uri: `${httpProtocol}://${GRAPHQL_ENDPOINT}`
 })
 
 //https://github.com/apollographql/subscriptions-transport-ws/issues/333
 const wsLink = process.browser ? new WebSocketLink({
-  uri: `ws://${GRAPHQL_ENDPOINT}`,
+  uri: `${socketProtocol}://${GRAPHQL_ENDPOINT}`,
   options: {
     reconnect: true
   }

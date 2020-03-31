@@ -17,7 +17,8 @@ export class Server {
 
     const server = new ApolloServer({
       schema,
-      cors: true
+      cors: true,
+      playground: true
     })
 
     server.listen(config.SERVER_PORT, '0.0.0.0').then(({url}) => {

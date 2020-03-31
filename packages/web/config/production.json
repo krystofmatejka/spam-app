@@ -1,9 +1,9 @@
 {
   "graphql": {
-    "protocol": "https",
+    "secured": true,
     "endpoint": "spam-app-api.herokuapp.com/graphql"
   },
   "build": {
-    "dynamic": true
+    "dynamic": false
   }
 }

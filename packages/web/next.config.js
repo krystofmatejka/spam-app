@@ -1,14 +1,14 @@
 const config = require('config')
 const webpack = require('webpack')
 
-const graphqlProtocol = config.get('graphql.protocol')
+const isGraphqlSecured = config.get('graphql.secured')
 const graphqlEndpoint = config.get('graphql.endpoint')
 
 const nextConfig = {
   webpack: (config) => {
     config.plugins.push(
       new webpack.DefinePlugin({
-        GRAPHQL_PROTOCOL: JSON.stringify(graphqlProtocol),
+        IS_GRAPHQL_SECURED: JSON.stringify(isGraphqlSecured),
         GRAPHQL_ENDPOINT: JSON.stringify(graphqlEndpoint)
       })
     )
