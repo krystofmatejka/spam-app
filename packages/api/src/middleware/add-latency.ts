@@ -5,7 +5,7 @@ const randomIntInRange = (from: number, to: number) => Math.round(Math.random() 
 
 const wait = (time: number = 1000) => new Promise((resolve) => setTimeout(resolve, time))
 
-export const AddLatency: MiddlewareFn = async ({root, info}, next) => {
+export const AddLatency: MiddlewareFn = async ({root}, next) => {
   await next()
 
   if (!root && config.SERVER_ADD_LATENCY) {
