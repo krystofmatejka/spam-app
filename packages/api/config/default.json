@@ -5,7 +5,8 @@
   },
   "server": {
     "port": 5001,
-    "corsOrigin": "http://localhost"
+    "corsOrigin": "http://localhost",
+    "addLatency": false
   },
   "graphql": {
     "endpoint": "graphql"

@@ -4,6 +4,7 @@ import {ApolloServer} from 'apollo-server'
 import {createConnection} from 'typeorm'
 import * as resolvers from './model/resolvers'
 import {config, logger} from './utils'
+import {AddLatency} from './middleware'
 
 export class Server {
   public async start() {
@@ -12,7 +13,8 @@ export class Server {
     await createConnection()
 
     const schema = await buildSchema({
-      resolvers: Object.values(resolvers)
+      resolvers: Object.values(resolvers),
+      globalMiddlewares: [AddLatency]
     })
 
     const server = new ApolloServer({

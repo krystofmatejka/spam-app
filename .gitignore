@@ -2,3 +2,4 @@
 packages/*/.next
 packages/*/node_modules
 packages/api/docker/local/storage/**/*
+packages/api/config/local.json

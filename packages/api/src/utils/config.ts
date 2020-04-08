@@ -1,8 +1,9 @@
-import * as configUtil from 'config'
+import * as c from 'config'
 
 export const config = {
-  APP_ENV: configUtil.get<string>('app.env'),
-  APP_VERSION: configUtil.get<string>('app.version'),
-  SERVER_PORT: configUtil.get<string>('server.port'),
-  GRAPHQL_ENDPOINT: configUtil.get<string>('graphql.endpoint')
+  APP_ENV: c.get<string>('app.env'),
+  APP_VERSION: c.get<string>('app.version'),
+  SERVER_PORT: c.get<string>('server.port'),
+  SERVER_ADD_LATENCY: c.get<boolean>('server.addLatency'),
+  GRAPHQL_ENDPOINT: c.get<string>('graphql.endpoint')
 }
