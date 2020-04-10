@@ -5,12 +5,14 @@ const randomIntInRange = (from: number, to: number) => Math.round(Math.random() 
 
 const wait = (time: number = 1000) => new Promise((resolve) => setTimeout(resolve, time))
 
-export const AddLatency: MiddlewareFn = async ({root}, next) => {
-  await next()
+const isRoot = (root) => !root
 
-  if (!root && config.SERVER_ADD_LATENCY) {
+export const AddLatency: MiddlewareFn = async ({root, info}, next) => {
+  if (isRoot(root) && config.SERVER_ADD_LATENCY) {
     const latency = randomIntInRange(1000, 2000)
-    logger.debug(`Added latency of ${latency}`)
+    logger.debug(`Added latency of ${latency} to ${info.fieldName}`)
     await wait(latency)
   }
+
+  return next()
 }
