@@ -28,7 +28,7 @@
     "reflect-metadata": "^0.1.13",
     "tslint": "^5.20.1",
     "type-graphql": "^0.17.6",
-    "typeorm": "^0.2.24"
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@types/config": "0.0.34",
